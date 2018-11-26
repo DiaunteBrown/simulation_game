@@ -43,9 +43,9 @@ public class World {
 		
 		for(int x=(int) position.getX(); x<(position.getX()+dimensions.getX()); x++) {
 			for(int y=(int)position.getY(); y<(position.getY()+dimensions.getY()); y++) {
-				System.out.println(x+","+y);
-				if(!tiles[x][y].isEmpty())
+				if(!tiles[x][y].isEmpty()) {
 					return false;
+				}
 			}
 		}
 		return true;
