@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
@@ -11,40 +12,59 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 public class World {
-	List<Room> rooms = new ArrayList<Room>();
-	int index;
-	
+	Tile tiles[][];
+	List<Character> characters = new ArrayList<Character>();
+	int width=Settings.getWidth()/Settings.getTileSize();
+	int height=Settings.getHeight()/Settings.getTileSize();
 	public World() {
-		BufferedImage img = null;
-
-		rooms.add(new Room("src/pictures/room1.png", new Point(200, 200), new Point(490, 65)));
-		rooms.add(new Room("src/pictures/room2.png", new Point(514, 570), new Point(500, 60)));
-		
-		index=0;
-	}
-	
-	public Room getRoom() {
-		return rooms.get(index);
-	}
-	
-	public void drawRoom(Graphics g) {
-		g.drawImage(rooms.get(index).getImage(), 0, 0, 600, 600, null);
-	}
-	
-	public Boolean checkExit(Point playerPosition) {
-		if((playerPosition.getX()>=rooms.get(index).getExit().getX()-50)&&(playerPosition.getX()<=rooms.get(index).getExit().getX()+50)){
-			if((playerPosition.getY()>=rooms.get(index).getExit().getY()-25)&&(playerPosition.getY()<=rooms.get(index).getExit().getY()+25)){
-				return true;
+		tiles = new Tile[width][height];
+		for(int x=0; x<width; x++) {
+			for(int y=0; y<height; y++) {
+				tiles[x][y] = new Tile();
 			}
 		}
-		
-		return false;
 	}
 	
-	public void nextRoom() {
-		if(index<(rooms.size()-1))
-			index++;
-		else
-			index=0;
+	public void drawCharacters(Graphics g) {
+		for(int i=0; i<characters.size(); i++)
+			characters.get(i).drawCharacter(g);
+	}
+	
+	public void addCharacter(Character character) {
+		characters.add(character);
+	}
+	
+	public List<Character> getCharacters(){return characters;}
+	
+	public Tile[][] getTiles(){return tiles;}
+	
+	public boolean isEmpty(Point position) {
+		
+		return tiles[(int) position.getX()][(int) position.getY()].isEmpty();
+	}
+	
+	public void testDrawWorld() {
+		for(int x=0; x<width; x++) {
+			for(int y=0; y<height; y++) {
+				if(tiles[x][y].isEmpty())
+					System.out.print("-");
+				else
+					System.out.print("X");
+			}
+			System.out.println("");
+		}
+	}
+	
+	public void testDrawWorld(Graphics g) {
+		for(int x=0; x<width; x++) {
+			for(int y=0; y<height; y++) {
+				if(tiles[x][y].isEmpty())
+					g.setColor(Color.blue);
+				else
+					g.setColor(Color.RED);
+				
+				g.drawRect(x*Settings.getTileSize(), y*Settings.getTileSize(), Settings.getTileSize(), Settings.getTileSize());
+			}
+		}
 	}
 }

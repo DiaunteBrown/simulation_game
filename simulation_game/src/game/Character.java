@@ -47,4 +47,8 @@ public class Character {
 	}
 	
 	public void setName(String nmae) {this.name=name;}
+	
+	public void moveRandomly() {
+		
+	}
 }

@@ -24,21 +24,25 @@ public class Player extends Character {
 		setPosition(new Point(Settings.getWidth()/2, Settings.getHeight()/2));
 	}
 	
-	public void keyEvent(KeyEvent k) {
-		
+	public void keyEvent(KeyEvent k, World world) {
+	
 		int move=Settings.getMove();
-		
+		int tileSize=Settings.getTileSize();
 		if((k.getKeyCode()==KeyEvent.VK_UP || k.getKeyChar()=='w') && (position.getY()-move>=0)) {
-			setPosition(new Point((int)position.getX(), (int)(position.getY()-move)));
+			if(world.isEmpty(new Point((int)position.getX()/tileSize, (int)(position.getY()-move)/tileSize)))
+				setPosition(new Point((int)position.getX(), (int)(position.getY()-move)));
 		}
-		else if((k.getKeyCode()==KeyEvent.VK_DOWN || k.getKeyChar()=='s')&& (position.getY()+move<=800)) {
-			setPosition(new Point((int)position.getX(), (int)(position.getY()+move)));
+		else if((k.getKeyCode()==KeyEvent.VK_DOWN || k.getKeyChar()=='s')&& (position.getY()+move<=Settings.getHeight())) {
+			if(world.isEmpty(new Point((int)position.getX()/tileSize, (int)(position.getY()+Settings.getCharacterHeight()+move)/tileSize)))
+				setPosition(new Point((int)position.getX(), (int)(position.getY()+move)));
 		}
 		else if((k.getKeyCode()==KeyEvent.VK_LEFT || k.getKeyChar()=='a')&& (position.getX()-move>=0)) {
-			setPosition(new Point((int)position.getX()-move, (int)(position.getY())));
+			if(world.isEmpty(new Point((int)(position.getX()-move)/tileSize, (int)(position.getY()/tileSize))))
+				setPosition(new Point((int)position.getX()-move, (int)(position.getY())));
 		}
-		else if((k.getKeyCode()==KeyEvent.VK_RIGHT || k.getKeyChar()=='d')&& (position.getX()-move<=800)) {
-			setPosition(new Point((int)position.getX()+move, (int)(position.getY())));
+		else if((k.getKeyCode()==KeyEvent.VK_RIGHT || k.getKeyChar()=='d')&& (position.getX()-move<=Settings.getWidth())) {
+			if(world.isEmpty(new Point((int)(position.getX()+Settings.getCharacterWidth()+move)/tileSize, (int)(position.getY()/tileSize))))
+				setPosition(new Point((int)position.getX()+move, (int)(position.getY())));
 		}
 	}
 	

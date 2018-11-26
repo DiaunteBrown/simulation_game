@@ -8,6 +8,7 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Timer;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -15,8 +16,9 @@ import javax.swing.JPanel;
 public class GamePanel extends JPanel implements KeyListener {
 
 	Player player = new Player();
-	World world;
-	
+	World world = new World();
+	long startTime;
+	double estimatedTimeSeconds;
 	Character testNPC = new Character();
 	
 	public enum GameState {
@@ -36,12 +38,18 @@ public class GamePanel extends JPanel implements KeyListener {
 	}
 	
 	private void gameSetup() {
-		
+		startTime = System.nanoTime();
+		world.addCharacter(player);
+		world.addCharacter(testNPC);
 	}
 	
 	public void gameManager(Graphics g) {
-		player.drawCharacter(g);
-		testNPC.drawCharacter(g);
+		world.drawCharacters(g);
+		estimatedTimeSeconds = (System.nanoTime()-startTime)*Math.pow(10, -9);
+		
+		ViewWindowLogic.updateCollision(world);
+		
+		//System.out.println(estimatedTimeSeconds);
 	}
 	
 	@Override
@@ -49,12 +57,13 @@ public class GamePanel extends JPanel implements KeyListener {
 		super.paintComponent(g);
 		g.setColor(Color.MAGENTA);
 		gameManager(g);
+		ViewWindowLogic.updateCollision(world);
+		world.testDrawWorld(g);
 	}
 
 	@Override
 	public void keyPressed(KeyEvent k) {
-		player.keyEvent(k);
-
+		player.keyEvent(k, world);
 		repaint();
 	}
 
