@@ -16,6 +16,7 @@ public class World {
 	List<Character> characters = new ArrayList<Character>();
 	int width=Settings.getWidth()/Settings.getTileSize();
 	int height=Settings.getHeight()/Settings.getTileSize();
+	int tileSize=Settings.getTileSize();
 	public World() {
 		tiles = new Tile[width][height];
 		for(int x=0; x<width; x++) {
@@ -38,9 +39,16 @@ public class World {
 	
 	public Tile[][] getTiles(){return tiles;}
 	
-	public boolean isEmpty(Point position) {
+	public boolean isEmpty(Point position, Point dimensions) {
 		
-		return tiles[(int) position.getX()][(int) position.getY()].isEmpty();
+		for(int x=(int) position.getX(); x<(position.getX()+dimensions.getX()); x++) {
+			for(int y=(int)position.getY(); y<(position.getY()+dimensions.getY()); y++) {
+				System.out.println(x+","+y);
+				if(!tiles[x][y].isEmpty())
+					return false;
+			}
+		}
+		return true;
 	}
 	
 	public void testDrawWorld() {

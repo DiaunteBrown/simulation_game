@@ -3,6 +3,7 @@ package game;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
@@ -19,7 +20,7 @@ public class GamePanel extends JPanel implements KeyListener {
 	World world = new World();
 	long startTime;
 	double estimatedTimeSeconds;
-	Character testNPC = new Character();
+	Character testNPC = new Character(new Point(100, 100), "NPC");
 	
 	public enum GameState {
 	    TITLE_STATE,
