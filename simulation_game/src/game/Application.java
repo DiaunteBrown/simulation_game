@@ -17,8 +17,19 @@ public class Application extends JFrame {
 		setLocationRelativeTo(null);
 	}
 	
+	public void run() {
+		game.run();
+		try {
+			Thread.sleep(30);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static void main(String[] args) {
 		Application app = new Application();
 		app.setVisible(true);
+		while(true)
+			app.run();
 	}
 }

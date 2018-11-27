@@ -21,6 +21,7 @@ public class GamePanel extends JPanel implements KeyListener {
 	long startTime;
 	double estimatedTimeSeconds;
 	Character testNPC = new Character(new Point(100, 100), "NPC");
+	boolean running;
 	
 	public enum GameState {
 	    TITLE_STATE,
@@ -42,14 +43,18 @@ public class GamePanel extends JPanel implements KeyListener {
 		startTime = System.nanoTime();
 		world.addCharacter(player);
 		world.addCharacter(testNPC);
+		running=true;
 	}
 	
-	public void gameManager(Graphics g) {
-		world.drawCharacters(g);
+	public void run() {
+		gameManager();
+		repaint();
+	}
+	
+	public void gameManager() {
 		estimatedTimeSeconds = (System.nanoTime()-startTime)*Math.pow(10, -9);
 		
 		ViewWindowLogic.updateCollision(world);
-		
 		//System.out.println(estimatedTimeSeconds);
 	}
 	
@@ -57,7 +62,9 @@ public class GamePanel extends JPanel implements KeyListener {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(Color.MAGENTA);
-		gameManager(g);
+		world.drawCharacters(g);
+		g.drawString(String.valueOf(Math.round(estimatedTimeSeconds)), 20, Settings.getHeight()+25);
+
 		ViewWindowLogic.updateCollision(world);
 		world.testDrawWorld(g);
 	}
@@ -65,7 +72,7 @@ public class GamePanel extends JPanel implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent k) {
 		player.keyEvent(k, world);
-		repaint();
+		//repaint();
 	}
 
 	@Override
