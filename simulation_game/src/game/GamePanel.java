@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -22,6 +23,13 @@ public class GamePanel extends JPanel implements KeyListener {
 	double estimatedTimeSeconds;
 	Character testNPC = new Character(new Point(100, 100), "NPC");
 	boolean running;
+	TimerTask repeatedTask = new TimerTask() {
+        public void run() {
+           player.descreaseHealth(2);
+           testNPC.descreaseHealth(2);
+        }
+    };
+	Timer hunger = new Timer("Hunger");
 	
 	public enum GameState {
 	    TITLE_STATE,
@@ -44,18 +52,22 @@ public class GamePanel extends JPanel implements KeyListener {
 		world.addCharacter(player);
 		world.addCharacter(testNPC);
 		running=true;
+		
+	    hunger.scheduleAtFixedRate(repeatedTask, Settings.getHealthDecreaseRate(), Settings.getHealthDecreaseRate());
 	}
 	
 	public void run() {
+		estimatedTimeSeconds = (System.nanoTime()-startTime)*Math.pow(10, -9);
 		gameManager();
 		repaint();
 	}
 	
 	public void gameManager() {
-		estimatedTimeSeconds = (System.nanoTime()-startTime)*Math.pow(10, -9);
-		
-		ViewWindowLogic.updateCollision(world);
-		//System.out.println(estimatedTimeSeconds);
+		/*if(estimatedTimeSeconds%2==0) {
+			System.out.println("Test");
+			player.descreaseHealth(2);
+			testNPC.descreaseHealth(2);
+		}*/
 	}
 	
 	@Override
@@ -67,6 +79,7 @@ public class GamePanel extends JPanel implements KeyListener {
 
 		ViewWindowLogic.updateCollision(world);
 		world.testDrawWorld(g);
+		world.drawMenu(g);
 	}
 
 	@Override

@@ -22,6 +22,7 @@ public class Player extends Character {
 		} catch (IOException e) {}
 		setSprite(img);
 		setPosition(new Point(Settings.getWidth()/2, Settings.getHeight()/2));
+		setName("Player");
 	}
 	
 	public void keyEvent(KeyEvent k, World world) {

@@ -51,6 +51,14 @@ public class World {
 		return true;
 	}
 	
+	public void drawMenu(Graphics g) {
+		g.setColor(Color.magenta);
+		for(int i=0; i<characters.size(); i++) {
+			g.drawString(characters.get(i).getName(), 20, Settings.getHeight()+50+25*i);
+			g.drawString(String.valueOf(characters.get(i).getHealth()), 75, Settings.getHeight()+50+25*i);
+		}
+	}
+	
 	public void testDrawWorld() {
 		for(int x=0; x<width; x++) {
 			for(int y=0; y<height; y++) {

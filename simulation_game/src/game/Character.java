@@ -12,6 +12,7 @@ public class Character {
 	Point position;
 	private String name;
 	Random rand = new Random();
+	private int health = 50;
 	
 	public Character() {
 		position=new Point(0, 0);
@@ -49,7 +50,11 @@ public class Character {
 		return sprite;
 	}
 	
-	public void setName(String nmae) {this.name=name;}
+	public String getName() {return name;}
+	public void setName(String name) {this.name=name;}
+	
+	public int getHealth() {return health;}
+	public void setHealth(int health) {this.health=health;}
 	
 	public void moveRandomly(World world) {
 		int direction = rand.nextInt(4);
@@ -73,4 +78,6 @@ public class Character {
 				setPosition(new Point((int)position.getX()+move, (int)(position.getY())));
 		}
 	}
+	
+	public void descreaseHealth(int damage) {health=health-damage;}
 }
