@@ -15,11 +15,8 @@ public class Entity {
 	}
 	
 	public void drawCharacter(Graphics g) {
-
 		if(sprite!=null)
 			g.drawImage(sprite, (int)position.getX(), (int)position.getY(), Settings.getCharacterWidth(), Settings.getCharacterHeight(), null );
-		else
-			g.drawRoundRect((int)position.getX(), (int)position.getY(), Settings.getCharacterWidth(), Settings.getCharacterHeight(), 10, 10);
 	}
 	
 	public void setPosition(Point position) {

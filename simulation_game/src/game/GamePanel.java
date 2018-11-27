@@ -17,19 +17,21 @@ import javax.swing.JPanel;
 
 public class GamePanel extends JPanel implements KeyListener {
 
-	Player player = new Player(null, "Player");
-	World world = new World();
-	long startTime;
-	double estimatedTimeSeconds;
-	Character testNPC = new Character(new Point(100, 100), "NPC");
-	boolean running;
 	TimerTask repeatedTask = new TimerTask() {
         public void run() {
            player.descreaseHealth(2);
            testNPC.descreaseHealth(2);
         }
     };
+	
+	Player player = new Player(null, "Player");
+	World world = new World();
+	long startTime;
+	double estimatedTimeSeconds;
+	Character testNPC = new Character(new Point(100, 100), "NPC");
+	boolean running;
 	Timer hunger = new Timer("Hunger");
+	Zone bedroom;
 	
 	public enum GameState {
 	    TITLE_STATE,
@@ -53,6 +55,8 @@ public class GamePanel extends JPanel implements KeyListener {
 		world.addCharacter(testNPC);
 		running=true;
 		
+		bedroom = new Zone(new Point(0, 0), "bedroom",new Point(200, 200));
+		
 	    hunger.scheduleAtFixedRate(repeatedTask, Settings.getHealthDecreaseRate(), Settings.getHealthDecreaseRate());
 	}
 	
@@ -63,22 +67,18 @@ public class GamePanel extends JPanel implements KeyListener {
 	}
 	
 	public void gameManager() {
-		/*if(estimatedTimeSeconds%2==0) {
-			System.out.println("Test");
-			player.descreaseHealth(2);
-			testNPC.descreaseHealth(2);
-		}*/
 	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		bedroom.draw(g);
 		g.setColor(Color.MAGENTA);
 		world.drawCharacters(g);
 		g.drawString(String.valueOf(Math.round(estimatedTimeSeconds)), 20, Settings.getHeight()+25);
 
 		ViewWindowLogic.updateCollision(world);
-		world.testDrawWorld(g);
+		//world.testDrawWorld(g);
 		world.drawMenu(g);
 	}
 
