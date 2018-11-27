@@ -6,26 +6,13 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-public class Character {
-	
-	private BufferedImage sprite=null;
-	Point position;
-	private String name;
+public class Character extends Entity {
+
 	Random rand = new Random();
 	private int health = 50;
 	
-	public Character() {
-		position=new Point(0, 0);
-	}
-	
 	public Character(Point position, String name) {
-		this.position=new Point(position);
-		this.name=name;
-	}
-	
-	public Character(BufferedImage sprite) {
-		this.sprite=sprite;
-		position=new Point(0, 0);
+		super(position, name);
 	}
 	
 	public void drawCharacter(Graphics g) {
@@ -35,23 +22,7 @@ public class Character {
 		else
 			g.drawRoundRect((int)position.getX(), (int)position.getY(), Settings.getCharacterWidth(), Settings.getCharacterHeight(), 10, 10);
 	}
-	
-	public void setPosition(Point position) {
-		this.position=new Point(position);
-	}
-	
-	public Point getPosition() {return position;}
-	
-	public void setSprite(BufferedImage sprite) {
-		this.sprite=sprite;
-	}
-	
-	public BufferedImage getSprite() {
-		return sprite;
-	}
-	
-	public String getName() {return name;}
-	public void setName(String name) {this.name=name;}
+
 	
 	public int getHealth() {return health;}
 	public void setHealth(int health) {this.health=health;}

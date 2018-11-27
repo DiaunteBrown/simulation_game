@@ -10,21 +10,17 @@ import javax.imageio.ImageIO;
 
 public class Player extends Character {
 
-	public Player(BufferedImage sprite) {
-		super(sprite);
-		setPosition(new Point(Settings.getWidth()/2, Settings.getHeight()/2));
-	}
 	
-	public Player() {
+	
+	public Player(Point position, String name) {
+		super(new Point(Settings.getWidth()/2, Settings.getHeight()/2), name);
 		BufferedImage img = null;
 		try {
 			img = ImageIO.read(new File("src/pictures/character.png"));
 		} catch (IOException e) {}
 		setSprite(img);
-		setPosition(new Point(Settings.getWidth()/2, Settings.getHeight()/2));
-		setName("Player");
 	}
-	
+
 	public void keyEvent(KeyEvent k, World world) {
 	
 		int move=Settings.getMove();

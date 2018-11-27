@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 
 public class GamePanel extends JPanel implements KeyListener {
 
-	Player player = new Player();
+	Player player = new Player(null, "Player");
 	World world = new World();
 	long startTime;
 	double estimatedTimeSeconds;
